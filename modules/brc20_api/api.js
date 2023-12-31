@@ -37,7 +37,10 @@ async function get_block_height_of_db() {
   return res.rows[0].max_block_height
 }
 
-app.get('/v1/brc20/block_height', (request, response) => response.send(get_block_height_of_db()))
+app.get('/v1/brc20/block_height', async (request, response) => {
+        let current_block_height = await get_block_height_of_db()
+        response.send({ error: null, result: current_block_height})
+});
 
 // get a given ticker balance of a given pkscript at the start of a given block height
 app.get('/v1/brc20/balance_on_block', async (request, response) => {
@@ -68,7 +71,7 @@ app.get('/v1/brc20/balance_on_block', async (request, response) => {
 
 // get all brc20 activity of a given block height
 app.get('/v1/brc20/activity_on_block', async (request, response) => {
-  let block_height = request.params.block_height
+  let block_height = request.query.block_height
 
   let current_block_height = await get_block_height_of_db()
   if (block_height > current_block_height) {

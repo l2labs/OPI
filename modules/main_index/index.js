@@ -74,13 +74,14 @@ async function main_index() {
 
     let ord_index_st_tm = +(new Date())
     let ord_end_block_height = ord_last_block_height + 500
-    if (ord_last_block_height < 774000) { // a random point where blocks start to get more inscription
+    if (ord_last_block_height < 2520000) { // a random point where blocks start to get more inscription
       ord_end_block_height = ord_last_block_height + 1000
     }
 
     let current_directory = process.cwd()
     process.chdir(ord_folder);
-    let ord_index_cmd = ord_binary + " --bitcoin-data-dir " + chain_folder + " --data-dir " + ord_datadir + " --height-limit " + (ord_end_block_height) + " index run"
+    let ord_index_cmd = ord_binary + " -t" + " --bitcoin-data-dir " + chain_folder + " --data-dir " + ord_datadir + " --height-limit " + (ord_end_block_height) + " index run"
+    console.log(ord_index_cmd)
     try {
       execSync(ord_index_cmd,
         {stdio: 'inherit'})
